@@ -7,13 +7,25 @@ GET http://localhost:3000/tasks?sort=oldest&count=1
 # REST 클라이언트 파일에서는 리퀘스트를 구분하려면 ###을 써야 한다
 # 쿼리스트링은 GET리퀘스트로 데이터를 받아올때, 추가 조건을 붙일때 사용한다.
 
+###
 GET http://localhost:3000/tasks/1
 
-
+###
 POST http://localhost:3000/tasks
-Content-Type: :application/json
+Content-Type: application/json
 
 {
   "title":"강아지 산책",
 "description":"강아지랑 30분 산책하기"
 }
+
+
+###
+PATCH  http://localhost:3000/tasks/1
+Content-Type: application/json
+
+{
+  "title":"1H workout",
+  "isComplete":true
+}
+
