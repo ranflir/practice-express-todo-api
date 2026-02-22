@@ -2,7 +2,7 @@ import express from 'express';
 import tasks from './data/mock.js';
 
 const app = express();
-
+app.use(express.json()); //app전체에서 express.json을 사용하겠다는 뜻
 app.get('/tasks', (req, res) => {
   // 쿼리 파라미터
   /**
@@ -35,5 +35,16 @@ app.get('/tasks/:id', (req, res) => {
     res.status(404).send({ message: 'Cannot find given id.' });
   }
 });
+
+app.post('/tasks', (req, res) => {
+  const newTask = req.body;
+  const ids = tasks.map((task) => task.id);
+  newTask.id = Math.max(...ids) + 1;
+  newTask.createdAt = new Date();
+  newTask.updatedAt = new Date();
+  tasks.push(newTask);
+  res.status(201).send(newTask);
+});
+
 
 app.listen(3000, () => console.log('Server Started!'));
