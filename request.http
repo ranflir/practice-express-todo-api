@@ -21,11 +21,4 @@ Content-Type: application/json
 
 
 ###
-PATCH  http://localhost:3000/tasks/1
-Content-Type: application/json
-
-{
-  "title":"1H workout",
-  "isComplete":true
-}
-
+DELETE http://localhost:3000/tasks/1
