@@ -8,7 +8,7 @@ GET http://localhost:3000/tasks?sort=oldest&count=1
 # 쿼리스트링은 GET리퀘스트로 데이터를 받아올때, 추가 조건을 붙일때 사용한다.
 
 ###
-GET http://localhost:3000/tasks/1
+GET http://localhost:3000/tasks/699c1f6b0b9e92c88943fa35
 
 ###
 POST http://localhost:3000/tasks
