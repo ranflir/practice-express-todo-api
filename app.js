@@ -1,5 +1,7 @@
 import express from 'express';
 import tasks from './data/mock.js';
+import mongoose from 'mongoose';
+import { DATABASE_URL } from './env.js';
 
 const app = express();
 app.use(express.json()); //app전체에서 express.json을 사용하겠다는 뜻
@@ -72,3 +74,4 @@ app.delete('/tasks/:id', (req, res) => {
 });
 
 app.listen(3000, () => console.log('Server Started!'));
+mongoose.connect(DATABASE_URL).then(() => console.log('Connected to DB'));
