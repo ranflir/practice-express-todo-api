@@ -5,7 +5,10 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import Task from './models/Task.js';
 
+import cors from 'cors';
+
 const app = express();
+app.use(cors());
 app.use(express.json()); //app전체에서 express.json을 사용하겠다는 뜻
 
 function asyncHandler(handler) {
