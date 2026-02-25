@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { DATABASE_URL } from './env.js';
+// import { DATABASE_URL } from './env.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 import Task from './models/Task.js';
 
 const app = express();
@@ -114,5 +116,9 @@ app.delete(
   }),
 );
 
-app.listen(3000, () => console.log('Server Started!'));
-mongoose.connect(DATABASE_URL).then(() => console.log('Connected to DB'));
+// app.listen(3000, () => console.log('Server Started!'));
+// mongoose.connect(DATABASE_URL).then(() => console.log('Connected to DB'));
+mongoose
+  .connect(process.env.DATABASE_URL)
+  .then(() => console.log('Connected to DB'));
+app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
