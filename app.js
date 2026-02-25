@@ -1,5 +1,4 @@
 import express from 'express';
-import mockTasks from './data/mock.js';
 import mongoose from 'mongoose';
 import { DATABASE_URL } from './env.js';
 import Task from './models/Task.js';
@@ -83,30 +82,37 @@ app.post(
   }),
 );
 
-app.patch('/tasks/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const task = mockTasks.find((task) => task.id === id);
-  if (task) {
-    Object.keys(req.body).forEach((key) => {
-      task[key] = req.body[key];
-    });
-    task.updatedAt = new Date();
-    res.send(task);
-  } else {
-    res.status(404).send({ message: 'Cannot find given id.' });
-  }
-});
+app.patch(
+  '/tasks/:id',
+  asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const task = await Task.findById(id);
 
-app.delete('/tasks/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const idx = mockTasks.findIndex((task) => task.id === id);
-  if (idx >= 0) {
-    mockTasks.splice(idx, 1);
-    res.sendStatus(204);
-  } else {
-    res.status(404).send({ message: 'Cannot find given id.' });
-  }
-});
+    if (task) {
+      Object.keys(req.body).forEach((key) => {
+        task[key] = req.body[key];
+      });
+      // task.updatedAt = new Date(); 이제 mongoDB가 관리함
+      await task.save();
+      res.send(task);
+    } else {
+      res.status(404).send({ message: 'Cannot find given id.' });
+    }
+  }),
+);
+
+app.delete(
+  '/tasks/:id',
+  asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const task = await Task.findByIdAndDelete(id);
+    if (task) {
+      res.sendStatus(204);
+    } else {
+      res.status(404).send({ message: 'Cannot find given id.' });
+    }
+  }),
+);
 
 app.listen(3000, () => console.log('Server Started!'));
 mongoose.connect(DATABASE_URL).then(() => console.log('Connected to DB'));
